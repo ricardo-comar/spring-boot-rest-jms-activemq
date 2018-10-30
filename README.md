@@ -28,3 +28,7 @@ Also has a docker-compose to start a local instance of ActiveMQ :)
 2018-10-30 09:15:29.012  INFO : Queue: {user: 'homer.simpson', delay: '5s', template: 'fila', now: '09:15:23'}
 2018-10-30 09:15:34.002  INFO : Topic: {user: 'homer.simpson', delay: '10s', template: 'topico', now: '09:15:23'}
 ```
+
+## References
+- http://activemq.apache.org/delay-and-schedule-message-delivery.html
+- https://receitasdecodigo.com.br/spring-boot/exemplo-de-projeto-com-spring-boot-jms-activemq-usando-filas-e-topicos
