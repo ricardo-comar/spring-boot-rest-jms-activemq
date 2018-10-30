@@ -2,7 +2,7 @@
 
 Simple PoC project to demonstrate a "delay" feature on ActiveMQ.
 
-Created using Spring Boot, with Maven 3, Spring Batch and [Actuator](http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html#production-ready-endpoints). 
+Created using Spring Boot 2.0, with Maven 3 and [Actuator](http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html#production-ready-endpoints). 
 
 Also has a docker-compose to start a local instance of ActiveMQ :)
 
