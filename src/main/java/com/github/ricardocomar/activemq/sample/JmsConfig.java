@@ -1,4 +1,6 @@
 package com.github.ricardocomar.activemq.sample;
+import javax.jms.ConnectionFactory;
+
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -8,8 +10,9 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
-
-import javax.jms.ConnectionFactory;
+import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
+import org.springframework.jms.support.converter.MessageConverter;
+import org.springframework.jms.support.converter.MessageType;
 
 
 @Configuration
@@ -35,9 +38,11 @@ public class JmsConfig {
 
     @Bean
     public JmsListenerContainerFactory jmsFactoryTopic(ConnectionFactory connectionFactory,
-                                                  DefaultJmsListenerContainerFactoryConfigurer configurer) {
+                                                  DefaultJmsListenerContainerFactoryConfigurer configurer,
+                                                  MessageConverter messageConverter) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         configurer.configure(factory, connectionFactory);
+        factory.setMessageConverter(messageConverter);
         factory.setPubSubDomain(true);
         return factory;
     }
@@ -52,6 +57,13 @@ public class JmsConfig {
         JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory());
         jmsTemplate.setPubSubDomain( true );
         return jmsTemplate;
+    }
+    
+    @Bean
+    public MessageConverter messageConverter() {
+        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+        converter.setTargetType(MessageType.TEXT);
+        return converter;
     }
 }
 

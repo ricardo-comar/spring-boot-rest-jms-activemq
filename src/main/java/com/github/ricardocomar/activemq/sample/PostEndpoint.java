@@ -20,7 +20,7 @@ public class PostEndpoint {
 	private JmsTemplate jmsTemplateTopic;
 
 	@PostMapping("/message/topic")
-	public ResponseEntity<String> topic(@RequestBody String message) {
+	public ResponseEntity<String> topic(@RequestBody DemoMessage message) {
 
 		System.err.println("Msg: " + message);
 		jmsTemplateTopic.convertAndSend("topic.sample", message, m -> {
@@ -33,7 +33,7 @@ public class PostEndpoint {
 	}
 
 	@PostMapping("/message/queue")
-	public ResponseEntity<String> queue(@RequestBody String message) {
+	public ResponseEntity<String> queue(@RequestBody DemoMessage message) {
 
 		System.err.println("Msg: " + message);
 		jmsTemplate.convertAndSend("queue.sample", message, m -> {

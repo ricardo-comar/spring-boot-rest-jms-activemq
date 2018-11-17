@@ -3,9 +3,9 @@ package com.github.ricardocomar.activemq.sample;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,13 +18,13 @@ public class MessageListenerComponent {
 
 
     @JmsListener(destination = "queue.sample")
-    public void onReceiverQueue(String str) {
-    	LOGGER.info("Queue: "+ str );
+    public void onReceiverQueue(@Payload DemoMessage message) {
+    	LOGGER.info("Queue: "+ message );
     }
 
     @JmsListener(destination = "topic.sample", containerFactory = "jmsFactoryTopic")
-    public void onReceiverTopic(String str) {
-        LOGGER.info("Topic: " + str );
+    public void onReceiverTopic(@Payload DemoMessage message) {
+        LOGGER.info("Topic: " + message );
     }
 
 }
