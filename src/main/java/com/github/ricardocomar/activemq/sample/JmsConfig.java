@@ -70,7 +70,13 @@ public class JmsConfig {
 		
 		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
 		configurer.configure(factory, connectionFactory);
+		
+		factory.setConnectionFactory(connectionFactory);
 		factory.setPubSubDomain(true);
+		factory.setSubscriptionShared(true);
+		factory.setSubscriptionDurable(true);
+		factory.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);
+		
 		return factory;
 	}
 
