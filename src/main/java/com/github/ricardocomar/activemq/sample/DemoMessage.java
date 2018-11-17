@@ -2,12 +2,16 @@ package com.github.ricardocomar.activemq.sample;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DemoMessage implements Serializable{
 
 	private static final long serialVersionUID = 2388636809753103341L;
 
+	@JsonProperty
 	private String message;
 	
+	@JsonProperty
 	private String ack;
 
 	@Override

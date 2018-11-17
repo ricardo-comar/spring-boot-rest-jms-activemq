@@ -42,27 +42,31 @@ public class JmsConfig {
                                                   MessageConverter messageConverter) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         configurer.configure(factory, connectionFactory);
-        factory.setMessageConverter(messageConverter);
+//        factory.setMessageConverter(messageConverter);
         factory.setPubSubDomain(true);
         return factory;
     }
 
     @Bean
-    public JmsTemplate jmsTemplate() {
-        return new JmsTemplate(connectionFactory());
+    public JmsTemplate jmsTemplate(MessageConverter messageConverter) {
+        JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory());
+        jmsTemplate.setMessageConverter(messageConverter);
+		return jmsTemplate;
     }
 
     @Bean
-    public JmsTemplate jmsTemplateTopic() {
+    public JmsTemplate jmsTemplateTopic(MessageConverter messageConverter) {
         JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory());
         jmsTemplate.setPubSubDomain( true );
+        jmsTemplate.setMessageConverter(messageConverter);
         return jmsTemplate;
     }
     
     @Bean
     public MessageConverter messageConverter() {
-        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-        converter.setTargetType(MessageType.TEXT);
+    	 MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+         converter.setTargetType(MessageType.TEXT);
+         converter.setTypeIdPropertyName("_type");
         return converter;
     }
 }
