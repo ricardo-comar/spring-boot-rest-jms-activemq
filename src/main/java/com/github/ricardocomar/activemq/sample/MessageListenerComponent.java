@@ -21,6 +21,7 @@ public class MessageListenerComponent {
     public void onReceiverQueue(@Payload DemoMessage message,
             @Headers MessageHeaders headers,
             Message msg, Session session) {
+    	message.setAck(Boolean.TRUE.toString());
     	LOGGER.info("Queue: "+ message );
     }
 
@@ -28,6 +29,7 @@ public class MessageListenerComponent {
     public void onReceiverTopic(@Payload DemoMessage message,
             @Headers MessageHeaders headers,
             Message msg, Session session) {
+    	message.setAck(Boolean.TRUE.toString());
         LOGGER.info("Topic: " + message );
     }
 
