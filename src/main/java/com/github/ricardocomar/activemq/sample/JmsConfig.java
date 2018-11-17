@@ -3,6 +3,7 @@ package com.github.ricardocomar.activemq.sample;
 import javax.jms.ConnectionFactory;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -15,12 +16,14 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @EnableJms
 @Configuration
 public class JmsConfig {
 
 	public static final String TOPIC_SAMPLE = "topic.sample";
-	public static final String QUEUE_SAMPLE = "topic.sample";
+	public static final String QUEUE_SAMPLE = "queue.sample";
 
 	// @Bean
 	// public JmsListenerContainerFactory<?> queueListenerFactory() {
@@ -56,28 +59,35 @@ public class JmsConfig {
 	}
 
 	@Bean
-	public JmsTemplate jmsTemplate(MessageConverter messageConverter,
+	public JmsTemplate jmsTemplate(/*MessageConverter messageConverter,*/
 			ConnectionFactory connectionFactory) {
 		JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
-		jmsTemplate.setMessageConverter(messageConverter);
+//		jmsTemplate.setMessageConverter(messageConverter);
 		return jmsTemplate;
 	}
 
 	@Bean
-	public JmsTemplate jmsTemplateTopic(MessageConverter messageConverter,
+	public JmsTemplate jmsTemplateTopic(/*MessageConverter messageConverter,*/
 			ConnectionFactory connectionFactory) {
 		JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
 		jmsTemplate.setPubSubDomain(true);
-		jmsTemplate.setMessageConverter(messageConverter);
+//		jmsTemplate.setMessageConverter(messageConverter);
 		return jmsTemplate;
 	}
 
+//	@Bean
+//	public MessageConverter messageConverter(ObjectMapper objectMapper) {
+//		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+//		converter.setTargetType(MessageType.TEXT);
+//		converter.setTypeIdPropertyName("_type");
+////		converter.setObjectMapper(objectMapper);
+//		return converter;
+//	}
+
 	@Bean
-	public MessageConverter messageConverter() {
-		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-		converter.setTargetType(MessageType.TEXT);
-		converter.setTypeIdPropertyName("_type");
-		return converter;
+	public ObjectMapper objectMapper() {
+		return new ObjectMapper();
 	}
+
 
 }
