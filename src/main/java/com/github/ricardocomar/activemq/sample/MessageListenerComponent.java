@@ -16,21 +16,19 @@ public class MessageListenerComponent {
 
 	private static final Logger LOGGER = Logger.getLogger("Listener"); 
 
-//    public static final String TOPIC_SAMPLE = "topic.sample";
-//    public static final String QUEUE_SAMPLE = "topic.sample";
 
-    @JmsListener(destination = JmsConfig.ORDER_QUEUE)
+    @JmsListener(destination = JmsConfig.QUEUE_SAMPLE)
     public void onReceiverQueue(@Payload DemoMessage message,
             @Headers MessageHeaders headers,
             Message msg, Session session) {
     	LOGGER.info("Queue: "+ message );
     }
 
-//    @JmsListener(destination = TOPIC_SAMPLE, containerFactory = "jmsFactoryTopic")
-//    public void onReceiverTopic(@Payload DemoMessage message,
-//            @Headers MessageHeaders headers,
-//            Message msg, Session session) {
-//        LOGGER.info("Topic: " + message );
-//    }
+    @JmsListener(destination = JmsConfig.TOPIC_SAMPLE, containerFactory = "jmsFactoryTopic", concurrency="1")
+    public void onReceiverTopic(@Payload DemoMessage message,
+            @Headers MessageHeaders headers,
+            Message msg, Session session) {
+        LOGGER.info("Topic: " + message );
+    }
 
 }

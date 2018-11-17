@@ -19,21 +19,22 @@ public class PostEndpoint {
 	@Autowired
 	private JmsTemplate jmsTemplate;
 
-//	@Autowired
-//	private JmsTemplate jmsTemplateTopic;
+	@Autowired
+	private JmsTemplate jmsTemplateTopic;
 
-//	@PostMapping("/message/topic")
-//	public ResponseEntity<String> topic(@RequestBody DemoMessage message) {
-//
-//		LOGGER.info("Msg: " + message);
-//		jmsTemplateTopic.convertAndSend(MessageListenerComponent.TOPIC_SAMPLE, message, m -> {
+	@PostMapping("/message/topic")
+	public ResponseEntity<String> topic(@RequestBody DemoMessage message) {
+
+		LOGGER.info("Msg: " + message);
+		jmsTemplateTopic.convertAndSend(JmsConfig.TOPIC_SAMPLE, message);
+//		jmsTemplateTopic.convertAndSend(JmsConfig.TOPIC_SAMPLE, message, m -> {
 //			m.clearProperties();
 //			m.setLongProperty("AMQ_SCHEDULED_DELAY", 10 * 1000);
 //			return m;
 //		});
-//
-//		return ResponseEntity.noContent().build();
-//	}
+
+		return ResponseEntity.noContent().build();
+	}
 
 	@PostMapping("/message/queue")
 	public ResponseEntity<String> queue(@RequestBody DemoMessage message) {
@@ -44,7 +45,7 @@ public class PostEndpoint {
 //			m.setLongProperty("AMQ_SCHEDULED_DELAY", 5 * 1000);
 //			return m;
 //		});
-		jmsTemplate.convertAndSend(JmsConfig.ORDER_QUEUE, message);
+		jmsTemplate.convertAndSend(JmsConfig.QUEUE_SAMPLE, message);
 
 		return ResponseEntity.noContent().build();
 	}
