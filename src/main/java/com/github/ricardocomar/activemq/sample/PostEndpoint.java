@@ -2,6 +2,7 @@ package com.github.ricardocomar.activemq.sample;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PostEndpoint {
 
+	private static final Logger LOGGER = Logger.getLogger("Endpoint"); 
+	
 	@Autowired
 	private JmsTemplate jmsTemplate;
 
@@ -22,8 +25,8 @@ public class PostEndpoint {
 	@PostMapping("/message/topic")
 	public ResponseEntity<String> topic(@RequestBody DemoMessage message) {
 
-		System.err.println("Msg: " + message);
-		jmsTemplateTopic.convertAndSend("topic.sample", message, m -> {
+		LOGGER.info("Msg: " + message);
+		jmsTemplateTopic.convertAndSend(MessageListenerComponent.TOPIC_SAMPLE, message, m -> {
 			m.clearProperties();
 			m.setLongProperty("AMQ_SCHEDULED_DELAY", 10 * 1000);
 			return m;
@@ -35,8 +38,8 @@ public class PostEndpoint {
 	@PostMapping("/message/queue")
 	public ResponseEntity<String> queue(@RequestBody DemoMessage message) {
 
-		System.err.println("Msg: " + message);
-		jmsTemplate.convertAndSend("queue.sample", message, m -> {
+		LOGGER.info("Msg: " + message);
+		jmsTemplate.convertAndSend(MessageListenerComponent.QUEUE_SAMPLE, message, m -> {
 			m.clearProperties();
 			m.setLongProperty("AMQ_SCHEDULED_DELAY", 5 * 1000);
 			return m;

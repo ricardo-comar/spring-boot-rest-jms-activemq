@@ -2,28 +2,34 @@ package com.github.ricardocomar.activemq.sample;
 
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.jms.Message;
+import javax.jms.Session;
+
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MessageListenerComponent {
 
-    @Autowired private JmsTemplate jmsTemplate;
-    @Autowired private JmsTemplate jmsTemplateTopic;
-    
-    private static final Logger LOGGER = Logger.getLogger("Listener"); 
+	private static final Logger LOGGER = Logger.getLogger("Listener"); 
 
+    public static final String TOPIC_SAMPLE = "topic.sample";
+    public static final String QUEUE_SAMPLE = "topic.sample";
 
-    @JmsListener(destination = "queue.sample")
-    public void onReceiverQueue(@Payload DemoMessage message) {
+    @JmsListener(destination = QUEUE_SAMPLE)
+    public void onReceiverQueue(@Payload DemoMessage message,
+            @Headers MessageHeaders headers,
+            Message msg, Session session) {
     	LOGGER.info("Queue: "+ message );
     }
 
-    @JmsListener(destination = "topic.sample", containerFactory = "jmsFactoryTopic")
-    public void onReceiverTopic(@Payload DemoMessage message) {
+    @JmsListener(destination = TOPIC_SAMPLE, containerFactory = "jmsFactoryTopic")
+    public void onReceiverTopic(@Payload DemoMessage message,
+            @Headers MessageHeaders headers,
+            Message msg, Session session) {
         LOGGER.info("Topic: " + message );
     }
 
