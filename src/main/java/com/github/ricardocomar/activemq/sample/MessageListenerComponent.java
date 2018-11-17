@@ -25,7 +25,7 @@ public class MessageListenerComponent {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-    @JmsListener(destination = JmsConfig.QUEUE_SAMPLE)
+    @JmsListener(destination = JmsConfig.QUEUE_SAMPLE, containerFactory="queueContainerFactory")
     public void onReceiverQueue(@Payload String message,
             @Headers MessageHeaders headers,
             Message msg, Session session) throws Exception {
@@ -36,7 +36,7 @@ public class MessageListenerComponent {
     	LOGGER.info("Queue: "+ message );
     }
 
-    @JmsListener(destination = JmsConfig.TOPIC_SAMPLE, containerFactory = "jmsFactoryTopic", concurrency="1")
+    @JmsListener(destination = JmsConfig.TOPIC_SAMPLE, containerFactory = "topicJmsListenerContainerFactory")
     public void onReceiverTopic(@Payload String message,
             @Headers MessageHeaders headers,
             Message msg, Session session) throws Exception {

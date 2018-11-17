@@ -47,8 +47,22 @@ public class JmsConfig {
 		return new ActiveMQConnectionFactory(user, password, brokerUrl);
 	}
 
-	@Bean
-	public JmsListenerContainerFactory<?> jmsFactoryTopic(
+	
+	@Bean(name = "queueContainerFactory")
+	public JmsListenerContainerFactory<?> queueContainerFactory(
+			ConnectionFactory connectionFactory,
+			DefaultJmsListenerContainerFactoryConfigurer configurer) {
+		
+		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+		configurer.configure(factory, connectionFactory);
+		return factory;
+	}
+
+	
+	
+	
+	@Bean("topicJmsListenerContainerFactory")
+	public JmsListenerContainerFactory<?> topicJmsListenerContainerFactory(
 			ConnectionFactory connectionFactory,
 			DefaultJmsListenerContainerFactoryConfigurer configurer) {
 		
