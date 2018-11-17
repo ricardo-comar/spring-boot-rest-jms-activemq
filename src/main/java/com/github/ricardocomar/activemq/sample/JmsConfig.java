@@ -15,10 +15,27 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
-@Configuration
 @EnableJms
+@Configuration
 public class JmsConfig {
+    
+	public static final String ORDER_QUEUE = "order-queue";
 
+    @Bean
+    public JmsListenerContainerFactory<?> queueListenerFactory() {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setMessageConverter(messageConverter());
+        return factory;
+    }
+
+    @Bean
+    public MessageConverter messageConverter() {
+        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+        converter.setTargetType(MessageType.TEXT);
+        converter.setTypeIdPropertyName("_type");
+        return converter;
+    }
+    
 	@Value("${spring.activemq.broker-url}")
 	private String brokerUrl;
 
@@ -33,39 +50,39 @@ public class JmsConfig {
 		return new ActiveMQConnectionFactory(user, password, brokerUrl);
 	}
 
-	@Bean
-	public JmsListenerContainerFactory<?> jmsFactoryTopic(
-			ConnectionFactory connectionFactory,
-			DefaultJmsListenerContainerFactoryConfigurer configurer,
-			MessageConverter messageConverter) {
-		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-		 configurer.configure(factory, connectionFactory);
-		factory.setMessageConverter(messageConverter);
-		return factory;
-	}
-
-	@Bean
-	public JmsTemplate jmsTemplate(MessageConverter messageConverter,
-			ConnectionFactory connectionFactory) {
-		JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
-		jmsTemplate.setMessageConverter(messageConverter);
-		return jmsTemplate;
-	}
-
-	@Bean
-	public JmsTemplate jmsTemplateTopic(MessageConverter messageConverter,
-			ConnectionFactory connectionFactory) {
-		JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
-		jmsTemplate.setPubSubDomain(true);
-		jmsTemplate.setMessageConverter(messageConverter);
-		return jmsTemplate;
-	}
-
-	@Bean
-	public MessageConverter messageConverter() {
-		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-		converter.setTargetType(MessageType.TEXT);
-		converter.setTypeIdPropertyName("_type");
-		return converter;
-	}
+//	@Bean
+//	public JmsListenerContainerFactory<?> jmsFactoryTopic(
+//			ConnectionFactory connectionFactory,
+//			DefaultJmsListenerContainerFactoryConfigurer configurer,
+//			MessageConverter messageConverter) {
+//		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+//		 configurer.configure(factory, connectionFactory);
+//		factory.setMessageConverter(messageConverter);
+//		return factory;
+//	}
+//
+//	@Bean
+//	public JmsTemplate jmsTemplate(MessageConverter messageConverter,
+//			ConnectionFactory connectionFactory) {
+//		JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
+//		jmsTemplate.setMessageConverter(messageConverter);
+//		return jmsTemplate;
+//	}
+//
+//	@Bean
+//	public JmsTemplate jmsTemplateTopic(MessageConverter messageConverter,
+//			ConnectionFactory connectionFactory) {
+//		JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
+//		jmsTemplate.setPubSubDomain(true);
+//		jmsTemplate.setMessageConverter(messageConverter);
+//		return jmsTemplate;
+//	}
+//
+//	@Bean
+//	public MessageConverter messageConverter() {
+//		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+//		converter.setTargetType(MessageType.TEXT);
+//		converter.setTypeIdPropertyName("_type");
+//		return converter;
+//	}
 }
