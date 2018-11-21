@@ -1,6 +1,6 @@
 package com.github.ricardocomar.activemq.sample;
 
-import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 import javax.jms.Message;
@@ -13,8 +13,6 @@ import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
@@ -26,24 +24,23 @@ public class MessageListenerComponent {
 	private ObjectMapper objectMapper;
 
     @JmsListener(destination = JmsConfig.QUEUE_SAMPLE, containerFactory="queueContainerFactory")
-    public void onReceiverQueue(@Payload String message,
+    public void onReceiverQueue(@Payload DemoMessage message,
             @Headers MessageHeaders headers,
             Message msg, Session session) throws Exception {
     	
-    	DemoMessage demoMsg = objectMapper.readValue(message, DemoMessage.class);
-    	demoMsg.setAck(Boolean.TRUE.toString());
-    	
-    	LOGGER.info("Queue: "+ message );
+    	message.setAck(Boolean.TRUE);
+		message.setRead(LocalDateTime.now());
+    	LOGGER.info("Queue: "+ objectMapper.writeValueAsString(message));
     }
 
     @JmsListener(destination = JmsConfig.TOPIC_SAMPLE, containerFactory = "topicJmsListenerContainerFactory")
-    public void onReceiverTopic(@Payload String message,
+    public void onReceiverTopic(@Payload DemoMessage message,
             @Headers MessageHeaders headers,
             Message msg, Session session) throws Exception {
 
-    	DemoMessage demoMsg = objectMapper.readValue(message, DemoMessage.class);
-    	demoMsg.setAck(Boolean.TRUE.toString());
-        LOGGER.info("Topic: " + message );
+    	message.setAck(Boolean.TRUE);
+		message.setRead(LocalDateTime.now());
+        LOGGER.info("Topic: " + objectMapper.writeValueAsString(message));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.github.ricardocomar.activemq.sample;
 
+import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,11 @@ public class PostEndpoint {
 	private JmsTemplate jmsTemplateTopic;
 
 	@PostMapping("/message/topic")
-	public ResponseEntity<String> topic(@RequestBody String message) {
+	public ResponseEntity<String> topic(@RequestBody DemoMessage message) throws Exception {
 
-		LOGGER.info("Msg: " + message);
-//		jmsTemplateTopic.convertAndSend(JmsConfig.TOPIC_SAMPLE, message);
+		message.setReceived(LocalDateTime.now());
+		LOGGER.info("Msg: " + objectMapper.writeValueAsString(message));
 		jmsTemplateTopic.convertAndSend(JmsConfig.TOPIC_SAMPLE, message, m -> {
-			m.clearProperties();
 			m.setLongProperty("AMQ_SCHEDULED_DELAY", 10 * 1000);
 			return m;
 		});
@@ -40,15 +40,14 @@ public class PostEndpoint {
 	}
 
 	@PostMapping("/message/queue")
-	public ResponseEntity<String> queue(@RequestBody String message) {
+	public ResponseEntity<String> queue(@RequestBody DemoMessage message) throws Exception {
 
-		LOGGER.info("Msg: " + message);
+		message.setReceived(LocalDateTime.now());
+		LOGGER.info("Msg: " + objectMapper.writeValueAsString(message));
 		jmsTemplate.convertAndSend(JmsConfig.QUEUE_SAMPLE, message, m -> {
-			m.clearProperties();
 			m.setLongProperty("AMQ_SCHEDULED_DELAY", 5 * 1000);
 			return m;
 		});
-//		jmsTemplate.convertAndSend(JmsConfig.QUEUE_SAMPLE, message);
 
 		return ResponseEntity.noContent().build();
 	}
