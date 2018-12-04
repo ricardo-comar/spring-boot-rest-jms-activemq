@@ -18,29 +18,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Component
 public class MessageListenerComponent {
 
-	private static final Logger LOGGER = Logger.getLogger("Listener"); 
+	private static final Logger LOGGER = Logger.getLogger("Listener");
 
 	@Autowired
 	private ObjectMapper objectMapper;
 
-    @JmsListener(destination = JmsConfig.QUEUE_SAMPLE, containerFactory="queueContainerFactory")
-    public void onReceiverQueue(@Payload DemoMessage message,
-            @Headers MessageHeaders headers,
-            Message msg, Session session) throws Exception {
-    	
-    	message.setAck(Boolean.TRUE);
-		message.setRead(LocalDateTime.now());
-    	LOGGER.info("Queue: "+ objectMapper.writeValueAsString(message));
-    }
+	@JmsListener(destination = JmsConfig.QUEUE_SAMPLE, containerFactory = "queueContainerFactory")
+	public void onReceiverQueue(@Headers MessageHeaders headers,
+			@Payload DemoMessage message, Session session) throws Exception {
 
-    @JmsListener(destination = JmsConfig.TOPIC_SAMPLE, containerFactory = "topicJmsListenerContainerFactory")
-    public void onReceiverTopic(@Payload DemoMessage message,
-            @Headers MessageHeaders headers,
-            Message msg, Session session) throws Exception {
-
-    	message.setAck(Boolean.TRUE);
+		message.setAck(Boolean.TRUE);
 		message.setRead(LocalDateTime.now());
-        LOGGER.info("Topic: " + objectMapper.writeValueAsString(message));
-    }
+		LOGGER.info("Queue: " + objectMapper.writeValueAsString(message));
+	}
+
+	@JmsListener(destination = JmsConfig.TOPIC_SAMPLE, containerFactory = "topicJmsListenerContainerFactory")
+	public void onReceiverTopic(@Headers MessageHeaders headers,
+			@Payload DemoMessage message, Session session) throws Exception {
+
+		message.setAck(Boolean.TRUE);
+		message.setRead(LocalDateTime.now());
+		LOGGER.info("Topic: " + objectMapper.writeValueAsString(message));
+	}
 
 }

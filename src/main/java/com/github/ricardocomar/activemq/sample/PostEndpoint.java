@@ -31,7 +31,9 @@ public class PostEndpoint {
 
 		message.setReceived(LocalDateTime.now());
 		LOGGER.info("Msg: " + objectMapper.writeValueAsString(message));
+		
 		jmsTemplateTopic.convertAndSend(JmsConfig.TOPIC_SAMPLE, message, m -> {
+			m.clearProperties();
 			m.setLongProperty("AMQ_SCHEDULED_DELAY", 10 * 1000);
 			return m;
 		});
@@ -44,7 +46,9 @@ public class PostEndpoint {
 
 		message.setReceived(LocalDateTime.now());
 		LOGGER.info("Msg: " + objectMapper.writeValueAsString(message));
+
 		jmsTemplate.convertAndSend(JmsConfig.QUEUE_SAMPLE, message, m -> {
+			m.clearProperties();
 			m.setLongProperty("AMQ_SCHEDULED_DELAY", 5 * 1000);
 			return m;
 		});

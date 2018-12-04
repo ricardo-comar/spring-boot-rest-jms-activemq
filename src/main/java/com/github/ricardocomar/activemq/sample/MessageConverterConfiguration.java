@@ -13,14 +13,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Configuration
 public class MessageConverterConfiguration {
+	
+	private static final String TYPE_ID_PROP = "_type";
 
 	@Bean
 	public MessageConverter messageConverter(final ObjectMapper objectMapper) {
 
 		final MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
 		converter.setObjectMapper(objectMapper);
+		converter.setTypeIdPropertyName(TYPE_ID_PROP);
 		converter.setTargetType(MessageType.TEXT);
-		converter.setTypeIdPropertyName("_type");
 		return converter;
 	}
 

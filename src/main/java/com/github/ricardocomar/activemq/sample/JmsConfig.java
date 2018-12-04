@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
@@ -48,13 +49,14 @@ public class JmsConfig {
 	public JmsListenerContainerFactory<?> queueContainerFactory(
 			ConnectionFactory connectionFactory,
 			DefaultJmsListenerContainerFactoryConfigurer configurer,
-			MessageConverter messageConverter) {
+			MessageConverter messageConverter,
+			final Jackson2ObjectMapperBuilder builder) {
 
-		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+		CustomJmsListenerContainerFactory factory = new CustomJmsListenerContainerFactory(builder);
 		configurer.configure(factory, connectionFactory);
-
-		factory.setConnectionFactory(connectionFactory);
+		
 		factory.setMessageConverter(messageConverter);
+		factory.setConnectionFactory(connectionFactory);
 		factory.setPubSubDomain(false);
 		factory.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);
 
@@ -65,16 +67,17 @@ public class JmsConfig {
 	public JmsListenerContainerFactory<?> topicJmsListenerContainerFactory(
 			ConnectionFactory connectionFactory,
 			DefaultJmsListenerContainerFactoryConfigurer configurer,
-			MessageConverter messageConverter) {
+			MessageConverter messageConverter,
+			final Jackson2ObjectMapperBuilder builder) {
 
-		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+		CustomJmsListenerContainerFactory factory = new CustomJmsListenerContainerFactory(builder);
 		configurer.configure(factory, connectionFactory);
 
-		factory.setConnectionFactory(connectionFactory);
 		factory.setMessageConverter(messageConverter);
+		factory.setConnectionFactory(connectionFactory);
 		factory.setPubSubDomain(true);
-//		factory.setSubscriptionShared(true);
-//		factory.setSubscriptionDurable(true);
+		// factory.setSubscriptionShared(true);
+		// factory.setSubscriptionDurable(true);
 		factory.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);
 
 		return factory;
@@ -82,19 +85,19 @@ public class JmsConfig {
 
 	@Bean
 	public JmsTemplate jmsTemplate(
-			MessageConverter messageConverter,
-			@Qualifier("cachingConnectionFactory") final ConnectionFactory connectionFactory) {
+			@Qualifier("cachingConnectionFactory") final ConnectionFactory connectionFactory,
+			MessageConverter messageConverter) {
 		JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
-		 jmsTemplate.setMessageConverter(messageConverter);
+		jmsTemplate.setMessageConverter(messageConverter);
 		return jmsTemplate;
 	}
 
 	@Bean
-	public JmsTemplate jmsTemplateTopic(MessageConverter messageConverter,
-			ConnectionFactory connectionFactory) {
+	public JmsTemplate jmsTemplateTopic(ConnectionFactory connectionFactory,
+			MessageConverter messageConverter) {
 		JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
+		jmsTemplate.setMessageConverter(messageConverter);
 		jmsTemplate.setPubSubDomain(true);
-		 jmsTemplate.setMessageConverter(messageConverter);
 		return jmsTemplate;
 	}
 
