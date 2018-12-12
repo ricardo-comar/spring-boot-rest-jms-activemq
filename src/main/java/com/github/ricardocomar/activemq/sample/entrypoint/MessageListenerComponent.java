@@ -1,4 +1,4 @@
-package com.github.ricardocomar.activemq.sample;
+package com.github.ricardocomar.activemq.sample.entrypoint;
 
 import java.time.LocalDateTime;
 import java.util.logging.Logger;
@@ -14,6 +14,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.ricardocomar.activemq.sample.config.JmsConfig;
+import com.github.ricardocomar.activemq.sample.model.DemoMessage;
 
 @Component
 public class MessageListenerComponent {

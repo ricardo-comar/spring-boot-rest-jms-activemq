@@ -1,4 +1,4 @@
-package com.github.ricardocomar.activemq.sample;
+package com.github.ricardocomar.activemq.sample.config;
 
 import java.io.IOException;
 import java.lang.reflect.Parameter;

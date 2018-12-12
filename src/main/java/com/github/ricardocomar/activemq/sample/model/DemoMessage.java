@@ -1,4 +1,4 @@
-package com.github.ricardocomar.activemq.sample;
+package com.github.ricardocomar.activemq.sample.model;
 
 import java.time.LocalDateTime;
 

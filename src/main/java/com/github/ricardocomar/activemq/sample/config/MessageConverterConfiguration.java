@@ -1,4 +1,4 @@
-package com.github.ricardocomar.activemq.sample;
+package com.github.ricardocomar.activemq.sample.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
