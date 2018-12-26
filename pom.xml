@@ -45,11 +45,11 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-		<dependency>
+ 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency> 
 		<!-- <dependency> <groupId>org.apache.qpid</groupId> <artifactId>qpid-jms-client</artifactId> 
 			<version>0.37.0</version> </dependency> -->
 

@@ -3,7 +3,6 @@ package com.github.ricardocomar.activemq.sample.entrypoint;
 import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
-import javax.jms.Message;
 import javax.jms.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class MessageListenerComponent {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@JmsListener(destination = JmsConfig.QUEUE_SAMPLE, containerFactory = "queueContainerFactory")
+	@JmsListener(destination = JmsConfig.QUEUE_SAMPLE, containerFactory = "queueContainerFactory", concurrency="1")
 	public void onReceiverQueue(@Headers MessageHeaders headers,
 			@Payload DemoMessage message, Session session) throws Exception {
 
@@ -34,7 +33,7 @@ public class MessageListenerComponent {
 		LOGGER.info("Queue: " + objectMapper.writeValueAsString(message));
 	}
 
-	@JmsListener(destination = JmsConfig.TOPIC_SAMPLE, containerFactory = "topicJmsListenerContainerFactory")
+	@JmsListener(destination = JmsConfig.TOPIC_SAMPLE, containerFactory = "topicJmsListenerContainerFactory", concurrency="1")
 	public void onReceiverTopic(@Headers MessageHeaders headers,
 			@Payload DemoMessage message, Session session) throws Exception {
 

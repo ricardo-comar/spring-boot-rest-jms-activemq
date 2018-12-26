@@ -29,6 +29,15 @@ Also has a docker-compose to start a local instance of ActiveMQ :)
 2018-10-30 09:15:34.002  INFO : Topic: {user: 'homer.simpson', delay: '10s', template: 'topico', now: '09:15:23'}
 ```
 
-## References
+## MQ References
 - http://activemq.apache.org/delay-and-schedule-message-delivery.html
 - https://receitasdecodigo.com.br/spring-boot/exemplo-de-projeto-com-spring-boot-jms-activemq-usando-filas-e-topicos
+
+## Job References
+- https://stackoverflow.com/questions/46974272/spring-boot-add-new-schedule-job-dynamically
+- https://stackoverflow.com/questions/42789209/no-qualifying-bean-of-type-scheduledexecutorservice-taskscheduler
+- https://g00glen00b.be/spring-batch-schedule/
+- https://docs.spring.io/spring-batch/trunk/reference/html/configureJob.html#inMemoryRepository
+- https://stackoverflow.com/questions/39913918/spring-boot-spring-batch-without-datasource
+- http://blogs.innovationm.com/job-scheduling-with-spring-batch/
+- https://docs.spring.io/spring/docs/4.1.5.RELEASE/spring-framework-reference/html/scheduling.html
