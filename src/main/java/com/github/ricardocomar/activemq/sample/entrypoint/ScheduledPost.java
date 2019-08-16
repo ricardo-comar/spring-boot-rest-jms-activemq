@@ -24,11 +24,11 @@ public class ScheduledPost {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@Scheduled(cron = "*/1 * * * * *")    
+	@Scheduled(cron = "*/3 * * * * *")    
 	public void postMessage() throws Exception {
 		
 		DemoMessage message = new DemoMessage();
-		message.setMessage("Scheduled message");
+		message.setMessage("brasil");
 		
 		LOGGER.info("Batch: " + objectMapper.writeValueAsString(message));
 		

@@ -1,0 +1,21 @@
+demo:
+    config:
+        service:
+            country:
+                url: https://restcountries.eu/rest/v2
+logging:
+    pattern:
+        console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'
+spring:
+    activemq:
+        broker-url: tcp://localhost:61616
+        password: password
+        user: jmx
+    batch:
+        job:
+            enabled: false
+    h2:
+        console:
+            enabled: true
+    profiles:
+        active: @activatedProperties@

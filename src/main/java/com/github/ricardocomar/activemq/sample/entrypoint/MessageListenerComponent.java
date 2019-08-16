@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.ricardocomar.activemq.sample.config.JmsConfig;
 import com.github.ricardocomar.activemq.sample.model.DemoMessage;
+import com.github.ricardocomar.activemq.sample.service.CountrySearchService;
 
 @Component
 public class MessageListenerComponent {
@@ -23,6 +24,9 @@ public class MessageListenerComponent {
 
 	@Autowired
 	private ObjectMapper objectMapper;
+	
+	@Autowired
+	private CountrySearchService countrySearch;
 
 	@JmsListener(destination = JmsConfig.QUEUE_SAMPLE, containerFactory = "queueContainerFactory", concurrency="1")
 	public void onReceiverQueue(@Headers MessageHeaders headers,
@@ -31,6 +35,8 @@ public class MessageListenerComponent {
 		message.setAck(Boolean.TRUE);
 		message.setRead(LocalDateTime.now());
 		LOGGER.info("Queue: " + objectMapper.writeValueAsString(message));
+		
+		countrySearch.searchCountry(message.getMessage());
 	}
 
 	@JmsListener(destination = JmsConfig.TOPIC_SAMPLE, containerFactory = "topicJmsListenerContainerFactory", concurrency="1")
@@ -40,6 +46,8 @@ public class MessageListenerComponent {
 		message.setAck(Boolean.TRUE);
 		message.setRead(LocalDateTime.now());
 		LOGGER.info("Topic: " + objectMapper.writeValueAsString(message));
-	}
+
+		countrySearch.searchCountry(message.getMessage());
+}
 
 }

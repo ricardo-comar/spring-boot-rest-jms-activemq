@@ -1,0 +1,10 @@
+demo:
+    config:
+        service:
+            country:
+                url: http://localhost:${wiremock.port}/rest/v2
+spring:
+    activemq:
+        broker-url: vm://embedded?broker.persistent=false,useShutdownHook=false
+        password: admin
+        user: admin
