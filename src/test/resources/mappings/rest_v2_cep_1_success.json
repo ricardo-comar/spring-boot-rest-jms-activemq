@@ -1,7 +1,7 @@
 {
   "priority": 1,
   "request" : {
-    "urlPattern" : "/ws/0([0-9]{7})/json/",
+    "urlPattern" : "/ws/8([0-9]{7})/json/",
     "method" : "GET"
   },
   "response" : {

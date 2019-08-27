@@ -1,8 +1,8 @@
 demo:
     config:
         service:
-            country:
-                url: http://restcountries.eu/rest/v2
+            cep:
+                url: http://restcountries.eu/ws/{cep}/json/
 logging:
     pattern:
         console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'

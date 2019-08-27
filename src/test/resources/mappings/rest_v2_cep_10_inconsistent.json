@@ -7,7 +7,7 @@
   "response" : {
     "status" : 418,
 	  "jsonBody": {
-          "error": "Inconsistent call'"
+          "error": "Inconsistent call"
       },
     "headers" : {
       "Content-Type" : "application/json;charset=utf-8"

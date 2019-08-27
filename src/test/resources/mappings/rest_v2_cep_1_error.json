@@ -6,7 +6,7 @@
   },
   "response" : {
     "status" : 404,
-	  "bodyFileName" : "rest_v2_cep_invalid_body.json",
+	  "bodyFileName" : "rest_v2_cep_error_body.json",
     "headers" : {
       "Content-Type" : "application/json;charset=utf-8"
     },
