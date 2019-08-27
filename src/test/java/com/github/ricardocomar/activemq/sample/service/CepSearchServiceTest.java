@@ -1,26 +1,19 @@
 package com.github.ricardocomar.activemq.sample.service;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.client.ResponseErrorHandler;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,6 +51,7 @@ public class CepSearchServiceTest {
 				Matchers.equalTo(HttpStatus.OK));
 		CepResponse response = MAPPER
 				.readValue(responseBody.getBody(), CepResponse.class);
+		
 		Assert.assertThat(response.getError(), Matchers.nullValue());
 		Assert.assertThat(response.getLogradouro(),
 				Matchers.is(Matchers.equalTo(expected.getLogradouro())));
@@ -71,6 +65,7 @@ public class CepSearchServiceTest {
 				Matchers.equalTo(HttpStatus.NOT_FOUND));
 		CepResponse response = MAPPER
 				.readValue(responseBody.getBody(), CepResponse.class);
+		
 		Assert.assertThat(response.getLogradouro(), Matchers.nullValue());
 		Assert.assertThat(response.getError(),
 				Matchers.containsString("Wiremock error cenario for CEP"));
@@ -84,6 +79,7 @@ public class CepSearchServiceTest {
 				Matchers.equalTo(HttpStatus.I_AM_A_TEAPOT));
 		CepResponse response = MAPPER
 				.readValue(responseBody.getBody(), CepResponse.class);
+		
 		Assert.assertThat(response.getLogradouro(), Matchers.nullValue());
 		Assert.assertThat(response.getError(),
 				Matchers.equalTo("Inconsistent call"));
