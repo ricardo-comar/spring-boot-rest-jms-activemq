@@ -1,0 +1,15 @@
+{
+  "priority": 1,
+  "request" : {
+    "urlPattern" : "/ws/0([0-9]{7})/json/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+	  "bodyFileName" : "rest_v2_cep_{{request.requestLine.pathSegments.[1]}}_body.json",
+    "headers" : {
+      "Content-Type" : "application/json;charset=utf-8"
+    },
+    "transformers": ["response-template"]
+  }
+}

@@ -24,7 +24,7 @@ public class ScheduledPost {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@Scheduled(cron = "*/3 * * * * *")    
+	@Scheduled(cron = "*/30 * * * * *")    
 	public void postMessage() throws Exception {
 		
 		DemoMessage message = new DemoMessage();

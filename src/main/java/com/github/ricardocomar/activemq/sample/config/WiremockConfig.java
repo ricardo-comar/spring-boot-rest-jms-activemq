@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 
 @Configuration
 @Profile("wiremock")
@@ -19,7 +20,10 @@ public class WiremockConfig {
 	@PostConstruct
 	public void postConstruct() {
 		WireMockServer wireMockServer = new WireMockServer(
-				WireMockConfiguration.options().port(Integer.valueOf(wmPort)));
+				WireMockConfiguration.options()
+					.port(Integer.valueOf(wmPort))
+					.extensions(new ResponseTemplateTransformer(false))
+				);
 		wireMockServer.start();
 	}
 

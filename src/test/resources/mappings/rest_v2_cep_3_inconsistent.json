@@ -1,0 +1,16 @@
+{
+  "priority": 10,
+  "request" : {
+    "urlPattern" : "/ws/.*/json/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 418,
+	  "jsonBody": {
+          "error": "Inconsistent call'"
+      },
+    "headers" : {
+      "Content-Type" : "application/json;charset=utf-8"
+    }
+  }
+}

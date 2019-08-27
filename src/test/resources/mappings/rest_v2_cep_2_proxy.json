@@ -1,0 +1,10 @@
+{
+  "priority": 2,
+  "request" : {
+    "urlPattern" : "/ws/[0-9]{8}/json/",
+    "method" : "GET"
+  },
+  "response" : {
+    "proxyBaseUrl" : "http://viacep.com.br"
+  }
+}

@@ -1,0 +1,6 @@
+{
+    "error": "Wiremock scenario of invalid CEP ({{request.requestLine.pathSegments.[1]}})",
+    "now": "{{now}}",
+    "yesterday": "{{now offset='-1 days' format='yyyy-MM-dd HH:mm:ssZ'}}",
+    "tomorrow": "{{now offset='1 days' format='yyyy-MM-dd HH:mm:ssZ'}}"
+}
